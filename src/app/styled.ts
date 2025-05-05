@@ -8,8 +8,9 @@ export const StyledShipWrapper = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
-  position: fixed;
+  position: sticky;
   z-index: 99;
+  top:65px;
   background-image:url(${bg.src});
   background-repeat: no-repeat !important;
   background-size: cover;

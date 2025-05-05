@@ -21,7 +21,8 @@ import close from "@/app/close.svg";
 import { StyledShipWrapper } from "./styled";
 import CustomTextField from "./components/CustomTextField";
 import Image from "next/image";
-
+import logo from "@/app/p2p_logo.svg";
+import Footer from "./components/footer/Footer";
 // ---------- Types ----------
 export interface SampleDataInterface {
   pages: Page[];
@@ -124,7 +125,10 @@ export default function PDFExtractor() {
     setExtractedData(null);
     try {
       const apiResponse = await extractTextFromPDF(file, setUploadProgress);
-      console.log("API Response:", apiResponse);
+      console.log(
+        "API Response:",
+        apiResponse?.pages?.filter((ele) => ele?.pageNumber == 2)
+      );
       setExtractedData(apiResponse);
     } catch (err) {
       setError((err as Error).message);
@@ -133,6 +137,7 @@ export default function PDFExtractor() {
       setUploadProgress(0);
     }
   };
+  console.log(extractedData);
 
   return (
     <>
@@ -155,30 +160,48 @@ export default function PDFExtractor() {
           <CircularProgress size={50} color="primary" />
         </Box>
       )}
+
+      <Box
+        position={"fixed"}
+        pt={"20px"}
+        pl={"40px"}
+        sx={{ backgroundColor: "#f7f7f7" }}
+        width={"100%"}
+        zIndex={99}
+        height={90}
+      >
+        <Image src={logo} alt="" width={140} height={80} />
+      </Box>
       <StyledShipWrapper />
+
       <Box
         sx={{
           backgroundColor: "#f7f7f7",
-          minHeight: "100vh",
+          minHeight: "88vh",
           paddingTop: "100px",
         }}
       >
         <Box pl={"20px"} pr={"20px"}>
-          <Paper elevation={1} sx={{ p: "20px" }}>
+          <Paper elevation={0} sx={{ p: "20px" }}>
             <Typography
-              variant="h4"
-              component="h1"
               gutterBottom
-              sx={{ fontWeight: "bold", mb: 3 }}
+              sx={{ fontWeight: "bold", mb: 3, fontSize: "12px" }}
             >
               Vessel User Manual Data Extract
             </Typography>
             <Box
               component="form"
               onSubmit={handleSubmit}
-              sx={{ display: "flex", flexDirection: "column", gap: 3 }}
+              sx={{ display: "flex", flexDirection: "row", gap: 3 }}
             >
-              <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: 2,
+                  flexDirection: "column",
+                }}
+              >
                 <Button
                   variant="contained"
                   component="label"
@@ -191,7 +214,7 @@ export default function PDFExtractor() {
                       textTransform: "none",
                       gap: "4px",
                       height: "35px",
-                      width: "140px",
+                      width: "180px",
                       padding: "10px 12px",
                       borderRadius: "4px",
                       flexShrink: 0,
@@ -283,7 +306,7 @@ export default function PDFExtractor() {
                 name=""
                 placeHolder="Enter Page No"
                 type="numeric"
-                customStyles={{ width: "140px" }}
+                customStyles={{ width: "180px" }}
               />
               <Button
                 type="submit"
@@ -298,22 +321,22 @@ export default function PDFExtractor() {
                     textTransform: "none",
                     gap: "4px",
                     height: "35px",
-                    width: "140px",
+                    width: "180px",
                     padding: "10px 12px",
                     borderRadius: "4px",
                     flexShrink: 0,
-                    backgroundColor: "#FFF",
-                    border: "1px solid #E0E0E0",
+                    backgroundColor: "#e1f3f9a6",
+                    border: "1px solid #13a4cc",
                     color: "#13A4CC",
                     opacity: 1,
                     fontFamily: "inherit",
                     cursor: "pointer",
                     fontSize: "12px",
                     "&:hover": {
-                      backgroundColor: "#0D7491",
-                      border: "1px solid #6F797C",
+                      backgroundColor: "#e1f3f9",
+                      border: "1px solid #13a4cc",
                       boxShadow: "0px 4px 8px 0px rgba(0, 0, 0, 0.16)",
-                      color:"#ffffff"
+                      color: "#13a4cc",
                     },
                     ":active": {
                       border: "1px solid #0D7491",
@@ -346,10 +369,13 @@ export default function PDFExtractor() {
           </Paper>
           {/* Pass extracted data to table */}
           <DataTable
-            pages={extractedData?.pages || []}
-                />
+            pages={
+              extractedData?.pages || []
+            }
+          />
         </Box>
       </Box>
+      <Footer />
     </>
   );
 }
