@@ -129,7 +129,14 @@ export default function PDFExtractor() {
         "API Response:",
         apiResponse?.pages?.filter((ele) => ele?.pageNumber == 2)
       );
-      setExtractedData(apiResponse);
+      const filteredPages =
+        pageNo > 0
+          ? apiResponse.pages.filter((page) => page.pageNumber === pageNo)
+          : apiResponse.pages;
+
+      setExtractedData({
+        pages: filteredPages.length > 0 ? filteredPages : [],
+      });
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -137,7 +144,6 @@ export default function PDFExtractor() {
       setUploadProgress(0);
     }
   };
-  console.log(extractedData);
 
   return (
     <>
@@ -300,7 +306,11 @@ export default function PDFExtractor() {
               </Box>
               <CustomTextField
                 OnChange={(number) => {
-                  setPageNumber(parseInt(number));
+                  if (parseInt(number) > 0) {
+                    setPageNumber(parseInt(number));
+                  } else {
+                    setPageNumber(0);
+                  }
                 }}
                 id=""
                 name=""
@@ -368,12 +378,7 @@ export default function PDFExtractor() {
             )}
           </Paper>
           {/* Pass extracted data to table */}
-          <DataTable
-            pages={
-             pageNo===0 ? extractedData?.pages||[]:
-              extractedData?.pages?.filter((ele)=>ele?.pageNumber===pageNo) || []
-            }
-          />
+          <DataTable pages={extractedData?.pages || []} />
         </Box>
       </Box>
       <Footer />
