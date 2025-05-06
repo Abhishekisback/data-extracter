@@ -46,7 +46,7 @@ export default function PDFExtractor() {
   const [fileName, setFileName] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [, setUploadProgress] = useState<number>(0);
-  const [, setPageNumber] = useState<string>("");
+  const [pageNo, setPageNumber] = useState<number>(0);
   const [extractedData, setExtractedData] =
     useState<SampleDataInterface | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -300,7 +300,7 @@ export default function PDFExtractor() {
               </Box>
               <CustomTextField
                 OnChange={(number) => {
-                  setPageNumber(number);
+                  setPageNumber(parseInt(number));
                 }}
                 id=""
                 name=""
@@ -370,7 +370,8 @@ export default function PDFExtractor() {
           {/* Pass extracted data to table */}
           <DataTable
             pages={
-              extractedData?.pages || []
+             pageNo===0 ? extractedData?.pages||[]:
+              extractedData?.pages?.filter((ele)=>ele?.pageNumber===pageNo) || []
             }
           />
         </Box>
