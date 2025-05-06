@@ -67,7 +67,7 @@ export default function PDFExtractor() {
     }
 
     if (selectedFile.size > 10 * 1024 * 1024) {
-      setError("File size must be less than 5MB");
+      setError("File size must be less than 10 MB");
       return;
     }
     setFile(selectedFile);
