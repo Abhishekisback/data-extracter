@@ -10,7 +10,7 @@ const Footer = () => {
     <StyledFooter>
       <Box display={"flex"} justifyContent={"space-between"} color={"#ffffff"} height={"55px"} alignItems={"center"}>
         <a href="#" className="privacy">
-          {"Privacy Policy"}
+          {""}
         </a>
         <p className="copyright">
           {"Copyright @"}

@@ -68,7 +68,7 @@ const DataGridTables = (dataFromApi: SampleDataInterface) => {
             backgroundColor: "#ffffff",
           }}
         >
-          <Image src={NoData} alt="No data" width={150} height={150} />
+          <Image src={NoData} alt="No data" width={120} height={120} />
           <Typography variant="h6" color="text.secondary">
             No Data Found
           </Typography>
